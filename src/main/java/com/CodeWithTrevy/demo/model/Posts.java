@@ -33,8 +33,10 @@ public class Posts {
     @Column(name = "content", columnDefinition = "TEXT")
     private String content;
     private int author_id;
-    private LocalDateTime created_at;
-    private LocalDateTime updated_at;
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
 
 
@@ -44,13 +46,13 @@ public class Posts {
 
 
 
-    public Posts(long id, String title, String content, int author_id, LocalDateTime created_at, LocalDateTime updated_at){
+    public Posts(long id, String title, String content, int author_id, LocalDateTime createdAt, LocalDateTime updatedAt){
         this.id = id;
         this.title = title;
         this.content = content;
         this.author_id = author_id;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
 
     }
     public long getId() {
@@ -70,11 +72,13 @@ public class Posts {
     }
 
     public LocalDateTime getCreated_at() {
-        return created_at;
+
+        return createdAt;
     }
 
     public LocalDateTime getUpdated_at() {
-        return updated_at;
+
+        return updatedAt;
     }
 
     public void setId(long id) {
@@ -94,10 +98,12 @@ public class Posts {
     }
 
     public void setCreated_at(LocalDateTime created_at) {
-        this.created_at = created_at;
+
+        this.createdAt = created_at;
     }
 
     public void setUpdated_at(LocalDateTime updated_at) {
-        this.updated_at = updated_at;
+
+        this.updatedAt = updated_at;
     }
 }
