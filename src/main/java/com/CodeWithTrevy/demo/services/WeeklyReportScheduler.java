@@ -25,7 +25,7 @@ public class WeeklyReportScheduler {
         this.postsRepository = postsRepository;
     }
 
-    @Scheduled(cron = "0 49 15 * * MON")
+    @Scheduled(cron = "0 50 12 * * FRI")
     public void sendWeeklyReport() {
         String adminEmail = "travorrwothmio@gmail.com";
         String reportContent = generateWeeklyReportContent();

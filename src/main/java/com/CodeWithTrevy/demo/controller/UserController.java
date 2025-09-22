@@ -6,6 +6,7 @@ import com.CodeWithTrevy.demo.services.UserServices;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,11 +25,25 @@ public class UserController {
 
     }
     @GetMapping("/allUsers")
+
     public Page<Users> getUsers(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size) {
-        return userServices.getUsers(page, size);
+            @RequestParam(defaultValue = "0") int pageNumber,
+            @RequestParam(defaultValue = "3") int pageSize,
+            @RequestParam(required = false, defaultValue = "id") String sortBy,
+            @RequestParam(required = false, defaultValue = "asc") String sortDir) {
+
+        Sort sort;
+
+        if(sortDir.equalsIgnoreCase("asc")){
+            sort = Sort.by(sortBy).ascending();
+        } else {
+            sort = Sort.by(sortBy).descending();
+        }
+
+        return userServices.getUsers(pageNumber, pageSize, sort);
     }
+
+
     @PostMapping(path = "addUser")
     public ResponseEntity<String>  addUser(@Valid @RequestBody Users users){
         this.userServices.addUser(users);

@@ -1,13 +1,13 @@
 package com.CodeWithTrevy.demo.services;
 
 import com.CodeWithTrevy.demo.dao.PostsRepository;
-import com.CodeWithTrevy.demo.exception.EmailAlreadyExistsException;
 import com.CodeWithTrevy.demo.model.Posts;
-import com.CodeWithTrevy.demo.model.Users;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.MergedAnnotations;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -19,9 +19,16 @@ public class PostsServices {
     public PostsServices(PostsRepository postsRepository){
         this.postsRepository = postsRepository;
     }
-    public Page<Posts> getPosts(int page , int size) {
-        Pageable pageable = PageRequest.of(page,size);
-        return postsRepository.findAll(pageable);
+    public Page<Posts>getPosts(int pageNumber, int pageSize, Sort sort, String search) {
+        Pageable pageable = PageRequest.of(pageNumber,pageSize,sort);
+        if(search == null || search.isEmpty()){
+            return postsRepository.findAll(pageable);
+        } else {
+            return postsRepository.findByAuthorId(Long.valueOf(search), pageable);
+        }
+
+
+
     }
     public Posts addPost(Posts post) {
         Optional<Posts> optionalPost = postsRepository.findByTitle(post.getTitle());

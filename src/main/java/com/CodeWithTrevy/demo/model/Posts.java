@@ -32,7 +32,8 @@ public class Posts {
     @NotBlank(message = "post content is required")
     @Column(name = "content", columnDefinition = "TEXT")
     private String content;
-    private int author_id;
+    @Column(name = "author_id")
+    private int authorId;
     @Column(name = "created_at")
     private LocalDateTime createdAt;
     @Column(name = "updated_at")
@@ -46,11 +47,11 @@ public class Posts {
 
 
 
-    public Posts(long id, String title, String content, int author_id, LocalDateTime createdAt, LocalDateTime updatedAt){
+    public Posts(long id, String title, String content, int authorId, LocalDateTime createdAt, LocalDateTime updatedAt){
         this.id = id;
         this.title = title;
         this.content = content;
-        this.author_id = author_id;
+        this.authorId = authorId;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
 
@@ -67,8 +68,8 @@ public class Posts {
         return content;
     }
 
-    public int getAuthor_id() {
-        return author_id;
+    public int getAuthorId() {
+        return authorId;
     }
 
     public LocalDateTime getCreated_at() {
@@ -94,7 +95,7 @@ public class Posts {
     }
 
     public void setAuthor_id(int author_id) {
-        this.author_id = author_id;
+        this.authorId = authorId;
     }
 
     public void setCreated_at(LocalDateTime created_at) {
