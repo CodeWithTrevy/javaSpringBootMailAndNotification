@@ -4,10 +4,7 @@ import com.CodeWithTrevy.demo.dao.PostsRepository;
 import com.CodeWithTrevy.demo.model.Posts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.MergedAnnotations;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -30,6 +27,13 @@ public class PostsServices {
 
 
     }
+
+    public Slice<Posts> getSlicedUsers(int pageNumber,int pageSize){
+        Pageable pageable=PageRequest.of(pageNumber,pageSize);
+
+        return postsRepository.findAllByOrderById(pageable);
+    }
+
     public Posts addPost(Posts post) {
         Optional<Posts> optionalPost = postsRepository.findByTitle(post.getTitle());
         if (optionalPost.isPresent()) {

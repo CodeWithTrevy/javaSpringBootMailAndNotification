@@ -1,11 +1,13 @@
 package com.CodeWithTrevy.demo.controller;
 
 
+import com.CodeWithTrevy.demo.model.Posts;
 import com.CodeWithTrevy.demo.model.Users;
 import com.CodeWithTrevy.demo.services.UserServices;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +43,12 @@ public class UserController {
         }
 
         return userServices.getUsers(pageNumber, pageSize, sort);
+
     }
+
+
+
+
 
 
     @PostMapping(path = "addUser")

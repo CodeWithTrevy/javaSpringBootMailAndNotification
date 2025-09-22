@@ -5,10 +5,14 @@ import com.CodeWithTrevy.demo.services.PostsServices;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/posts")
@@ -41,7 +45,35 @@ public class PostController {
     }
 
 
+    @GetMapping("/slicedPosts")
 
+
+    public ResponseEntity<Map<String,Object>> getSlicedPosts(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size){
+        Slice<Posts> postsSlice=postsServices.getSlicedUsers(page,size);
+
+        Map<String,Object> response = new HashMap<>();
+
+        response.put("content",postsSlice.getContent());
+        response.put("hasNext",postsSlice.hasContent());
+        response.put("hasPrevious",postsSlice.hasPrevious());
+        response.put("size",postsSlice.getSize());
+        response.put("numberOfElements", postsSlice.getNumberOfElements());
+
+        return ResponseEntity.ok(response);
+
+
+    }
+
+//    public Slice<Posts> getSliceUsers(
+//            @RequestParam(required = false, defaultValue = "0") int page,
+//            @RequestParam(required = false, defaultValue = "10") int size) {
+//
+//
+//
+//        return postsServices.getSlicedUsers(page,size);
+//    }
 
 
     @PostMapping("/addPost")
