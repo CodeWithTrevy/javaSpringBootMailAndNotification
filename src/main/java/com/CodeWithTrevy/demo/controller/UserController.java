@@ -12,8 +12,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
+import java.lang.reflect.Array;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -45,6 +48,45 @@ public class UserController {
         return userServices.getUsers(pageNumber, pageSize, sort);
 
     }
+
+
+    @GetMapping("/home")
+
+    public String home(){
+        return "hello world!";
+
+    }
+
+    // make an api request to the service
+
+//    @GetMapping("/callClient")
+//    private String getContent(){
+//        String uri= "http://localhost:8080/api/users/home";
+//
+//        RestTemplate restTemplate =  new RestTemplate();
+//        String  result = restTemplate.getForObject(uri,String.class);
+//
+//        return  result;
+//
+//    }
+
+    @GetMapping(value = "/countries")
+
+    public List<Object> getCountries(){
+//        String uri = "https://restcountries.com/v3.1/all";
+
+        String uri = "https://restcountries.com/v3.1/independent?status=true";
+
+
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        Object [] countries = restTemplate.getForObject(uri,Object[].class);
+
+        return Arrays.asList(countries);
+    }
+
+
 
 
 
