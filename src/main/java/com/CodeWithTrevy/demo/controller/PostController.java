@@ -3,6 +3,8 @@ package com.CodeWithTrevy.demo.controller;
 import com.CodeWithTrevy.demo.model.Posts;
 import com.CodeWithTrevy.demo.services.PostsServices;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Slice;
@@ -17,6 +19,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("api/posts")
 public class PostController {
+    Logger logger= LoggerFactory.getLogger(PostController.class);
+
 
     private final PostsServices postsServices;
 
@@ -24,6 +28,9 @@ public class PostController {
     public PostController(PostsServices postsServices){
         this.postsServices = postsServices;
     }
+
+
+
 
 
     @GetMapping("/allPosts")
@@ -42,6 +49,16 @@ public class PostController {
         }
 
         return postsServices.getPosts(pageNumber, pageSize, sort,search);
+    }
+
+    @GetMapping("/log")
+    public  String Log(){
+        logger.info("log leve: INFO");
+        logger.trace("Log level: TRACE");
+        logger.warn("log level: WARN");
+        logger.debug("log level: DEBUG");
+        logger.error("log level: ERROR");
+        return "check out your system logs";
     }
 
 
@@ -66,14 +83,6 @@ public class PostController {
 
     }
 
-//    public Slice<Posts> getSliceUsers(
-//            @RequestParam(required = false, defaultValue = "0") int page,
-//            @RequestParam(required = false, defaultValue = "10") int size) {
-//
-//
-//
-//        return postsServices.getSlicedUsers(page,size);
-//    }
 
 
     @PostMapping("/addPost")
