@@ -1,9 +1,8 @@
 package com.CodeWithTrevy.demo.services;
 
-import com.CodeWithTrevy.demo.dao.PostsRepository;
+import com.CodeWithTrevy.demo.repository.PostsRepository;
 import com.CodeWithTrevy.demo.model.Posts;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.MergedAnnotations;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 

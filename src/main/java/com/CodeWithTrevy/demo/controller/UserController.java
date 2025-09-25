@@ -3,6 +3,7 @@ package com.CodeWithTrevy.demo.controller;
 
 import com.CodeWithTrevy.demo.model.Posts;
 import com.CodeWithTrevy.demo.model.Users;
+import com.CodeWithTrevy.demo.services.ExternalApiService;
 import com.CodeWithTrevy.demo.services.UserServices;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +24,15 @@ import java.util.List;
 @RequestMapping(path="api/users")
 public class UserController {
     private  final UserServices userServices;
+    private  final ExternalApiService externalApiService;
+
+
     @Autowired
 
-    public UserController(UserServices userServices){
+    public UserController(UserServices userServices, ExternalApiService externalApiService){
         this.userServices = userServices;
 
+        this.externalApiService = externalApiService;
     }
     @GetMapping("/allUsers")
 
@@ -57,6 +62,9 @@ public class UserController {
 
     }
 
+
+
+
     // make an api request to the service
 
 //    @GetMapping("/callClient")
@@ -70,20 +78,28 @@ public class UserController {
 //
 //    }
 
-    @GetMapping(value = "/countries")
+    @GetMapping(value = "/cityWeather/{city}")
 
-    public List<Object> getCountries(){
-//        String uri = "https://restcountries.com/v3.1/all";
-
-        String uri = "https://restcountries.com/v3.1/independent?status=true";
+    public String getCityWeather(@PathVariable String city){
+        return  externalApiService.fetchDataFromExternalApi(city);
 
 
 
-        RestTemplate restTemplate = new RestTemplate();
 
-        Object [] countries = restTemplate.getForObject(uri,Object[].class);
 
-        return Arrays.asList(countries);
+
+
+////        String uri = "https://restcountries.com/v3.1/all";
+//
+//        String uri = "https://restcountries.com/v3.1/independent?status=true";
+//
+//
+//
+//        RestTemplate restTemplate = new RestTemplate();
+//
+//        Object [] countries = restTemplate.getForObject(uri,Object[].class);
+//
+//        return Arrays.asList(countries);
     }
 
 

@@ -1,4 +1,4 @@
-package com.CodeWithTrevy.demo.dao;
+package com.CodeWithTrevy.demo.repository;
 
 import com.CodeWithTrevy.demo.model.Users;
 import org.springframework.data.jpa.repository.JpaRepository;

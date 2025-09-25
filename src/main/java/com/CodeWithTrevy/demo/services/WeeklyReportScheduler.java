@@ -1,7 +1,7 @@
 package com.CodeWithTrevy.demo.services;
 
-import com.CodeWithTrevy.demo.dao.PostsRepository;
-import com.CodeWithTrevy.demo.dao.UserRepository;
+import com.CodeWithTrevy.demo.repository.PostsRepository;
+import com.CodeWithTrevy.demo.repository.UserRepository;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;

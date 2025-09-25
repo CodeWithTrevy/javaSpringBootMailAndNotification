@@ -1,6 +1,6 @@
 package com.CodeWithTrevy.demo.services;
 
-import com.CodeWithTrevy.demo.dao.UserRepository;
+import com.CodeWithTrevy.demo.repository.UserRepository;
 import com.CodeWithTrevy.demo.exception.EmailAlreadyExistsException;
 import com.CodeWithTrevy.demo.model.Users;
 import org.springframework.beans.factory.annotation.Autowired;
