@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,11 +16,13 @@ import java.util.Optional;
 @Service
 public class UserServices {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServices(UserRepository userRepository) {
+    public UserServices(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
 
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Page<Users> getUsers(int pageNumber, int pageSize, Sort sort) {
@@ -28,13 +31,19 @@ public class UserServices {
         return userRepository.findAll(pageable);
     }
 
-    public void addUser(Users users) {
+    public Users addUser(Users users) {
         Optional<Users> optionalUsers = userRepository.findUserByEmail(users.getEmail());
         if (optionalUsers.isPresent()) {
             throw new EmailAlreadyExistsException(users.getEmail());
 
         }
-        userRepository.save(users);// persists
+        users.setPassword(passwordEncoder.encode(users.getPassword()));
+
+        return userRepository.save(users);
+    }
+    public boolean checkPassword(String rawPassword,String encodedPassword){
+        return passwordEncoder.matches(rawPassword,encodedPassword);
+
     }
 
     public void deleteUser(Long id) {
