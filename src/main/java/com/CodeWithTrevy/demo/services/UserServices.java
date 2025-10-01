@@ -1,5 +1,6 @@
 package com.CodeWithTrevy.demo.services;
 
+import com.CodeWithTrevy.demo.exception.UsernameAlreadyExistsException;
 import com.CodeWithTrevy.demo.repository.UserRepository;
 import com.CodeWithTrevy.demo.exception.EmailAlreadyExistsException;
 import com.CodeWithTrevy.demo.model.Users;
@@ -8,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -31,16 +33,22 @@ public class UserServices {
         return userRepository.findAll(pageable);
     }
 
-    public Users addUser(Users users) {
-        Optional<Users> optionalUsers = userRepository.findUserByEmail(users.getEmail());
-        if (optionalUsers.isPresent()) {
-            throw new EmailAlreadyExistsException(users.getEmail());
+    public void addUser(Users users) {
+        userRepository.findUserByEmail(users.getEmail())
+                .ifPresent(u -> { throw new EmailAlreadyExistsException(users.getEmail()); });
 
-        }
+        userRepository.findByUsername(users.getUsername())
+                .ifPresent(u -> { throw new UsernameAlreadyExistsException(users.getUsername()); });
+
         users.setPassword(passwordEncoder.encode(users.getPassword()));
 
-        return userRepository.save(users);
+        if (users.getRoles() == null || users.getRoles().isEmpty()) {
+            users.setRoles("ROLE_USER");
+        }
+
+        userRepository.save(users);
     }
+
     public boolean checkPassword(String rawPassword,String encodedPassword){
         return passwordEncoder.matches(rawPassword,encodedPassword);
 

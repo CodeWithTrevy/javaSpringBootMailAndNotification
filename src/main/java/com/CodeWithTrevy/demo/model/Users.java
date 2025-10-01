@@ -3,6 +3,7 @@ package com.CodeWithTrevy.demo.model;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -50,8 +51,11 @@ public class Users {
 
     @NotBlank(message = "Email is required")
 
+    @Email(message = "Please provide a valid email address")
+
     private String email;
     private LocalDateTime createdAt;
+    private String roles;
 
 
 

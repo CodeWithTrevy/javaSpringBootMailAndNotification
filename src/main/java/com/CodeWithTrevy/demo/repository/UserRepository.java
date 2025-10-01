@@ -14,6 +14,8 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<Users, Long> {
 
+    Optional<Users> findByUsername(String username);
+
 
     @Query("SELECT COUNT(u) FROM users u WHERE u.createdAt > :date")
     long countUsersAfter(@Param("date") LocalDateTime date);
