@@ -19,7 +19,7 @@ public class JwtTokenProvider {
     private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
     private final long validityInMilliseconds = 3600000; // 1 hour
 
-    // Create JWT token
+
     public String createToken(Authentication authentication) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         Date now = new Date();

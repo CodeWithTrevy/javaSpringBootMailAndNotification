@@ -12,6 +12,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -20,6 +21,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
+@CrossOrigin(origins ="http://localhost:4200")
 @RestController
 @RequestMapping(path="api/users")
 public class UserController {
@@ -35,6 +37,8 @@ public class UserController {
         this.externalApiService = externalApiService;
     }
     @GetMapping("/allUsers")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
+
 
     public Page<Users> getUsers(
             @RequestParam(defaultValue = "0") int pageNumber,
@@ -110,6 +114,7 @@ public class UserController {
 
 
     @PostMapping(path = "addUser")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<String>  addUser(@Valid @RequestBody Users users){
         this.userServices.addUser(users);
         return ResponseEntity.status(HttpStatus.CREATED).body("Users added sucessfully");
@@ -117,6 +122,7 @@ public class UserController {
 
     }
     @DeleteMapping(path = "delete/{userId}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
 
     public void deleteUser(@PathVariable("userId") Long id){
         this.userServices.deleteUser(id);
