@@ -17,7 +17,7 @@ import java.util.Date;
 public class JwtTokenProvider {
 
     private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
-    private final long validityInMilliseconds = 3600000; // 1 hour
+    private final long validityInMilliseconds = 2*60*1000;
 
 
     public String createToken(Authentication authentication) {
@@ -32,6 +32,20 @@ public class JwtTokenProvider {
                 .signWith(key)
                 .compact();
     }
+
+    public String createRefreshToken(Authentication authentication) {
+        String username = authentication.getName();
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+
+        return Jwts.builder()
+                .setSubject(username)
+                .setIssuedAt(now)
+                .setExpiration(expiryDate)
+                .signWith(key)
+                .compact();
+    }
+
 
     // Extract token from request header
     public String resolveToken(HttpServletRequest request) {
